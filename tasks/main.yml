@@ -60,3 +60,28 @@
 
 # Update Jenkins and install configured plugins.
 - include_tasks: plugins.yml
+
+
+# 
+# Clean up
+# 
+# To try and trim down the final docker image
+# 
+- name: "remove man"
+  apt:
+    name: man
+    state: absent
+    autoclean: true
+    autoremove: true
+    purge: true
+    install_recommends: false
+
+- name: "Clean-up"
+  shell: "rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man"
+
+- name: apt clean
+  shell: apt-get clean
+
+- name: "Empty tmp"
+  shell: "rm -rf /tmp/*"
