@@ -34,6 +34,7 @@
   apt:
     deb: "/tmp/jenkins_{{ jenkins_version }}_all.deb"
     state: present
+    install_recommends: false
   when: jenkins_version is defined and specific_version.stat.exists
   notify: configure default users
 
@@ -41,4 +42,5 @@
   apt:
     name: jenkins
     state: "{{ jenkins_package_state }}"
+    install_recommends: false
   notify: configure default users
