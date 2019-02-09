@@ -43,4 +43,6 @@
     name: jenkins
     state: "{{ jenkins_package_state }}"
     install_recommends: false
+    autoremove: true
+    autoclean: true
   notify: configure default users

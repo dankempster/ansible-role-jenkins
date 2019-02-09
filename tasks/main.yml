@@ -1,4 +1,25 @@
 ---
+#
+# Update 
+#
+# To try and trim down the final docker image
+#
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: true
+    update_cache: true
+    cache_valid_time: 3600
+    autoremove: true
+    autoclean: true
+    install_recommends: false
+
+
+#
+# Vanilla steps
+#
+# This files original steps before I started hacking
+#
 # Variable setup.
 - name: Include OS-Specific variables
   include_vars: "{{ ansible_os_family }}.yml"
@@ -62,26 +83,13 @@
 - include_tasks: plugins.yml
 
 
-# 
+#
 # Clean up
-# 
+#
 # To try and trim down the final docker image
-# 
-- name: "remove man"
-  apt:
-    name: man
-    state: absent
-    autoclean: true
-    autoremove: true
-    purge: true
-    install_recommends: false
-
+#
 - name: "Clean-up"
-  shell: "rm -rf /var/lib/apt/lists/* \
-    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man"
-
-- name: apt clean
-  shell: apt-get clean
+  shell: "rm -Rf /usr/share/doc && rm -Rf /usr/share/man"
 
 - name: "Empty tmp"
   shell: "rm -rf /tmp/*"
